@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 13. wordcount
 
@@ -31,7 +33,7 @@ do número de ocorrências, em ordem crescente de ocorrências.
 
 Por exemplo:
 
-$ python wordcount.py --topcount letras.txt
+$ python 13_wordcount.py --topcount letras.txt
 b 4
 c 3
 a 2
@@ -51,11 +53,50 @@ Dicas:
 e conferindo cada etapa do seu progresso.
 """
 
+# +++ SUA SOLUÇÃO +++
+# Defina as funções print_words(filename) e print_top(filename).
+
 import sys
 
 
-# +++ SUA SOLUÇÃO +++
-# Defina as funções print_words(filename) e print_top(filename).
+# a função open_file abre o arquivo txt e transforma suas linhas em uma lista de caracteres
+def open_file(file):
+    l = []
+    with open(file, 'r') as fl:
+        text = (fl.read().split())
+        for letter in text:
+            l.append(letter.lower())
+    fl.close()
+    return l
+
+
+# a função counter_words retorna uma collections que conta o número de ocorrências para cada
+# caracter da lista retornada em def open_file
+def counter_words(file):
+    import collections
+    from collections import Counter, OrderedDict
+    letters = open_file(file)
+    set_letters = set(letters)
+    for i in set_letters:
+        c = Counter(letters)
+        return c
+
+
+# a função print_words itera na collections de counter_words para retornar as ocorrências
+# ordenadas pelas chaves.
+def print_words(file):
+    p_words = counter_words(file)
+    for k, v in sorted(p_words.items()):
+        print(k, v)
+
+
+# a função print_top itera na collections de counter_words para retornar as ocorrências
+# com a limitação de 20
+def print_top(file):
+    common_words = counter_words(file)
+    common = common_words.most_common(20)
+    for k, v in common:
+        print(k, v)
 
 
 # A função abaixo chama print_words() ou print_top() de acordo com os
