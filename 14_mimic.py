@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 14. mimic
 
@@ -34,37 +36,59 @@ que imita o original. Imprima uma palavra, depois veja quais palavras podem
 vir a seguir e pegue uma aleatoriamente como a proxima palavra do texto.
 
 Use a string vazia como a primeira palavra do texto para preparar as coisas.
-
+python 14_mimic.py letras.txt
 Nota: o módulo padrão do python 'random' conta com o random.choice(list),
 método que escolhe um elemento aleatório de uma lista não vazia.
 """
 
 import random
 import sys
+from collections import defaultdict
+
+
+def read(filename):
+    with open(filename) as f:
+        return f.read()
+
+
+def create_dict(content):
+    words = content.lower().split()
+    d, prior = defaultdict(set), ''
+    for word in words:
+        next = d.get(prior, [])
+        next.append(word)
+        d[prior] = next
+        prior = word
+    return d
 
 
 def mimic_dict(filename):
-  """Retorna o dicionario imitador mapeando cada palavra para a lista de
-  palavras subsequentes."""
-    # +++ SUA SOLUÇÃO +++
-  return
+    """Retorna o dicionario imitador mapeando cada palavra para a lista de
+    palavras subsequentes."""
+    return create_dict(read(filename))
 
 
 def print_mimic(mimic_dict, word):
-  """Dado o dicionario imitador e a palavra inicial, imprime texto de 200 palavras."""
-    # +++ SUA SOLUÇÃO +++
-  return
+    """Dado o dicionario imitador e a palavra inicial, imprime texto de 200 palavras."""
+    words = []
+    for n in range(200):
+        if type(mimic_dict[word]) is list:
+            new_word = random.choice(mimic_dict[word])
+            if new_word != '':
+                words.append(new_word)
+                word = new_word
+    return ' '.join(words)
 
 
 # Chama mimic_dict() e print_mimic()
 def main():
-  if len(sys.argv) != 2:
-    print('Utilização: ./14_mimic.py file-to-read')
-    sys.exit(1)
+    if len(sys.argv) != 2:
+        print('Utilização: ./14_mimic.py file-to-read')
+        sys.exit(1)
 
-  dict = mimic_dict(sys.argv[1])
-  print_mimic(dict, '')
+    dict = mimic_dict(sys.argv[1])
+    print_mimic(dict, '')
 
 
 if __name__ == '__main__':
-  main()
+    main()
