@@ -15,12 +15,12 @@ antes de combina-las.
 def front_x(words):
     words_x = list()
     words_others = list()
-    for word in words:
+    for word in sorted(words):
         if word[0] in 'xX':
             words_x.append(word)
         else:
             words_others.append(word)
-    return sorted(words_x) + sorted(words_others)
+    return words_x + words_others
 
     # Outra opção de solução:
     # list_x = sorted(list(filter(lambda word: word[0] in 'xX', words)))
